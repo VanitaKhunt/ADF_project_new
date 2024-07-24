@@ -4,6 +4,9 @@
 	"parameters": {
 		"factoryName": {
 			"value": "adfnew2407"
+		},
+		"AzureKeyVault_properties_typeProperties_baseUrl": {
+			"value": "https://adfkeyvault2407.vault.azure.net/"
 		}
 	}
 }
