@@ -17,23 +17,10 @@
 				"typeProperties": {
 					"source": {
 						"type": "DelimitedTextSource",
-						"additionalColumns": [
-							{
-								"name": "filepath",
-								"value": "$$FILEPATH"
-							},
-							{
-								"name": "loadtime",
-								"value": {
-									"value": "@utcnow()",
-									"type": "Expression"
-								}
-							}
-						],
 						"storeSettings": {
 							"type": "AzureBlobFSReadSettings",
 							"recursive": true,
-							"wildcardFolderPath": "adfcourse",
+							"wildcardFolderPath": "adfsource",
 							"wildcardFileName": "*.csv",
 							"enablePartitionDiscovery": false
 						},
@@ -48,9 +35,8 @@
 						},
 						"formatSettings": {
 							"type": "DelimitedTextWriteSettings",
-							"maxRowsPerFile": 2,
 							"quoteAllText": true,
-							"fileExtension": ".csv"
+							"fileExtension": ""
 						}
 					},
 					"enableStaging": false,
