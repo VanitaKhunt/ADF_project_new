@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"folderPath": "adfcourse",
+				"folderPath": "adf3",
 				"fileSystem": "sink"
 			},
 			"columnDelimiter": "|",
