@@ -19,9 +19,7 @@
 						"type": "DelimitedTextSource",
 						"storeSettings": {
 							"type": "AzureBlobFSReadSettings",
-							"recursive": true,
-							"wildcardFolderPath": "adfsource",
-							"wildcardFileName": "*.csv",
+							"fileListPath": "source/project/filelist.txt",
 							"enablePartitionDiscovery": false
 						},
 						"formatSettings": {
