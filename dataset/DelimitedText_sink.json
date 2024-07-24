@@ -12,10 +12,10 @@
 				"type": "AzureBlobFSLocation",
 				"fileSystem": "sink"
 			},
-			"columnDelimiter": ",",
+			"columnDelimiter": "|",
 			"escapeChar": "\\",
 			"firstRowAsHeader": true,
-			"quoteChar": "\""
+			"quoteChar": ""
 		},
 		"schema": []
 	}
