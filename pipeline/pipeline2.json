@@ -19,16 +19,23 @@
 						"type": "BinarySource",
 						"storeSettings": {
 							"type": "AzureBlobFSReadSettings",
-							"fileListPath": "source/project/filelist.txt"
+							"recursive": true,
+							"deleteFilesAfterCompletion": false
 						},
 						"formatSettings": {
 							"type": "BinaryReadSettings"
 						}
 					},
 					"sink": {
-						"type": "BinarySink",
+						"type": "DelimitedTextSink",
 						"storeSettings": {
-							"type": "AzureBlobFSWriteSettings"
+							"type": "AzureBlobFSWriteSettings",
+							"copyBehavior": "MergeFiles"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
 						}
 					},
 					"enableStaging": false
@@ -41,7 +48,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Binary_sink",
+						"referenceName": "DelimitedText_sink",
 						"type": "DatasetReference"
 					}
 				]
