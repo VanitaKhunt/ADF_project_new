@@ -11,7 +11,7 @@
 					"referenceName": "AzureKeyVault",
 					"type": "LinkedServiceReference"
 				},
-				"secretName": "sourcegen2-accesskey"
+				"secretName": "sourcegen2accesskey"
 			}
 		},
 		"connectVia": {
