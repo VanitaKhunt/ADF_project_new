@@ -1,0 +1,9 @@
+{
+	"name": "ADFproj1new",
+	"location": "uksouth",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "ea6d12c0-2243-40f4-9ec1-65d977b1f732",
+		"tenantId": "85d22d55-16b4-4a54-9c0c-1b5559c0fc27"
+	}
+}

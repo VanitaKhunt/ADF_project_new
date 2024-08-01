@@ -1,0 +1,17 @@
+{
+	"name": "AzureSqldbtable",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatawarehouse",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Testfile"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
