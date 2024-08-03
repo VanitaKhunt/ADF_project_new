@@ -5,7 +5,14 @@
 			{
 				"name": "ToGoldProduct",
 				"type": "ExecuteDataFlow",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "ToFileStore",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -53,7 +60,14 @@
 			{
 				"name": "ToPurchaseAddress",
 				"type": "ExecuteDataFlow",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "ToGoldProduct",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -65,6 +79,37 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "ProductdatabasetogoldPurchaseAddres",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "ToSalesorderfact",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "ToPurchaseAddress",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "ProductdatabasetogoldSalesOrder",
 						"type": "DataFlowReference"
 					},
 					"compute": {
