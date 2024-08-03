@@ -1114,6 +1114,7 @@
 						"     format: 'parquet',",
 						"     fileSystem: 'datalake',",
 						"     folderPath: 'Gold/ProductDatabase/Salesorderfact',",
+						"     truncate: true,",
 						"     umask: 0022,",
 						"     preCommands: [],",
 						"     postCommands: [],",
