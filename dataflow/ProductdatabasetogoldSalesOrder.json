@@ -54,6 +54,9 @@
 				},
 				{
 					"name": "Salesordercolumn"
+				},
+				{
+					"name": "derviedcolumnorderamount"
 				}
 			],
 			"scriptLines": [
@@ -130,23 +133,26 @@
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> joinProduct",
-				"joinProduct select(mapColumn(",
+				"derviedcolumnorderamount select(mapColumn(",
 				"          OrderID,",
 				"          ProductID,",
-				"          QuantityOrdered,",
 				"          OrderDate,",
+				"          QuantityOrdered,",
 				"          PriceEach = sourceSilver@PriceEach,",
+				"          OrderAmount,",
 				"          PurchaseAddressID,",
 				"          FilestoreID",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> Salesordercolumn",
+				"joinProduct derive(OrderAmount = toFloat(QuantityOrdered * sourceSilver@PriceEach)) ~> derviedcolumnorderamount",
 				"Salesordercolumn sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
 				"     fileSystem: 'datalake',",
 				"     folderPath: 'Gold/ProductDatabase/Salesorderfact',",
 				"     truncate: true,",
+				"     partitionFileNames:['Salerorderfact.parquet'],",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
