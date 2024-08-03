@@ -1,0 +1,63 @@
+{
+	"name": "Product database to silver",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"linkedService": {
+						"referenceName": "Datalake",
+						"type": "LinkedServiceReference"
+					},
+					"name": "sourceBronze"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "filterorderid"
+				},
+				{
+					"name": "Changedatatype"
+				},
+				{
+					"name": "Removeduplicates"
+				},
+				{
+					"name": "AddAddressparts"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          OrderID as string,",
+				"          Product as string,",
+				"          QuantityOrdered as string,",
+				"          PriceEach as string,",
+				"          OrderDate as string,",
+				"          PurchaseAddress as string,",
+				"          Filename as string,",
+				"          LoadDate as date",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     limit: 100,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet',",
+				"     fileSystem: 'datalake',",
+				"     wildcardPaths:['Bronze/Productfolder']) ~> sourceBronze",
+				"sourceBronze filter(isInteger(OrderID)) ~> filterorderid",
+				"Removeduplicates cast(output(",
+				"          OrderID as integer,",
+				"          QuantityOrdered as integer,",
+				"          PriceEach as double,",
+				"          OrderDate as timestamp 'MM/dd/yy HH:mm'",
+				"     ),",
+				"     errors: true) ~> Changedatatype",
+				"filterorderid aggregate(groupBy(mycols = sha2(256,columns())),",
+				"     each(match(true()), $$ = first($$))) ~> Removeduplicates",
+				"Changedatatype derive(PurchaseStreet = trim(at(split(PurchaseAddress, ','),1)),",
+				"          Purchasecity = trim(at(split(PurchaseAddress, ','),2))) ~> AddAddressparts"
+			]
+		}
+	}
+}
