@@ -37,6 +37,12 @@
 			"transformations": [
 				{
 					"name": "joinFileSource"
+				},
+				{
+					"name": "joinPurchaseAddress"
+				},
+				{
+					"name": "joinProduct"
 				}
 			],
 			"scriptLines": [
@@ -59,29 +65,61 @@
 				"     format: 'parquet',",
 				"     fileSystem: 'datalake',",
 				"     wildcardPaths:['Silver/ProductDatabase/']) ~> sourceSilver",
-				"source(allowSchemaDrift: true,",
+				"source(output(",
+				"          Filename as string,",
+				"          LoadDate as date,",
+				"          FilestoreID as long",
+				"     ),",
+				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet',",
 				"     fileSystem: 'datalake',",
 				"     wildcardPaths:['Gold/ProductDatabase/Filestore']) ~> sinkFilesource",
-				"source(allowSchemaDrift: true,",
+				"source(output(",
+				"          PurchaseStreet as string,",
+				"          Purchasecity as string,",
+				"          PurchaseState as string,",
+				"          PurchaseZipcode as string,",
+				"          PurchaseAddressID as long",
+				"     ),",
+				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet',",
 				"     fileSystem: 'datalake',",
 				"     wildcardPaths:['Gold/ProductDatabase/PurchaseAddress/']) ~> sinkpurchaseAddress",
-				"source(allowSchemaDrift: true,",
+				"source(output(",
+				"          Product as string,",
+				"          PriceEach as double,",
+				"          ProductID as long",
+				"     ),",
+				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet',",
 				"     fileSystem: 'datalake',",
 				"     wildcardPaths:['Gold/ProductDatabase/Product/']) ~> sinkProduct",
-				"sourceSilver, sinkFilesource join(Filename == ERROR_FUNCTION(''),",
+				"sourceSilver, sinkFilesource join(sourceSilver@Filename == sinkFilesource@Filename",
+				"     && sourceSilver@LoadDate == sinkFilesource@LoadDate,",
 				"     joinType:'left',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> joinFileSource"
+				"     broadcast: 'auto')~> joinFileSource",
+				"joinFileSource, sinkpurchaseAddress join(sourceSilver@PurchaseStreet == sinkpurchaseAddress@PurchaseStreet",
+				"     && sourceSilver@Purchasecity == sinkpurchaseAddress@Purchasecity",
+				"     && sourceSilver@PurchaseState == sinkpurchaseAddress@PurchaseState",
+				"     && sourceSilver@PurchaseZipcode == sinkpurchaseAddress@PurchaseZipcode,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> joinPurchaseAddress",
+				"joinPurchaseAddress, sinkProduct join(sourceSilver@Product == sinkProduct@Product",
+				"     && ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> joinProduct"
 			]
 		}
 	}
