@@ -5,14 +5,7 @@
 			{
 				"name": "ToGoldProduct",
 				"type": "ExecuteDataFlow",
-				"dependsOn": [
-					{
-						"activity": "ToFileStore",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -60,14 +53,7 @@
 			{
 				"name": "ToPurchaseAddress",
 				"type": "ExecuteDataFlow",
-				"dependsOn": [
-					{
-						"activity": "ToGoldProduct",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -92,6 +78,18 @@
 				"name": "ToSalesorderfact",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [
+					{
+						"activity": "ToFileStore",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "ToGoldProduct",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
 					{
 						"activity": "ToPurchaseAddress",
 						"dependencyConditions": [
