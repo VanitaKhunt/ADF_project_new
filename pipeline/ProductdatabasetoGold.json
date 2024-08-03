@@ -75,17 +75,17 @@
 				}
 			},
 			{
-				"name": "ToSalesorderfact",
+				"name": "TosalesOrder",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [
 					{
-						"activity": "ToFileStore",
+						"activity": "ToGoldProduct",
 						"dependencyConditions": [
 							"Succeeded"
 						]
 					},
 					{
-						"activity": "ToGoldProduct",
+						"activity": "ToFileStore",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -118,6 +118,9 @@
 				}
 			}
 		],
+		"folder": {
+			"name": "MappingDataflow"
+		},
 		"annotations": []
 	}
 }
