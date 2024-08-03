@@ -852,7 +852,6 @@
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
-						"     limit: 100,",
 						"     ignoreNoFilesFound: false,",
 						"     format: 'parquet',",
 						"     fileSystem: 'datalake',",
