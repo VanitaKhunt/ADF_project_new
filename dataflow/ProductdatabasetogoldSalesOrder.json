@@ -43,6 +43,9 @@
 				},
 				{
 					"name": "joinProduct"
+				},
+				{
+					"name": "Salesordercolumn"
 				}
 			],
 			"scriptLines": [
@@ -119,7 +122,18 @@
 				"     joinType:'left',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> joinProduct"
+				"     broadcast: 'auto')~> joinProduct",
+				"joinProduct select(mapColumn(",
+				"          OrderID,",
+				"          ProductID,",
+				"          QuantityOrdered,",
+				"          OrderDate,",
+				"          PriceEach = sourceSilver@PriceEach,",
+				"          PurchaseAddressID,",
+				"          FilestoreID",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> Salesordercolumn"
 			]
 		}
 	}
