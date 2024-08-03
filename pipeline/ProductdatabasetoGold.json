@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "ProductdatabasetoGold",
+				"name": "ToGoldProduct",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
 				"policy": {
@@ -17,6 +17,54 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "ProductdatabasetogoldProduct",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "ToFileStore",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "ProductdatabasetogoldFilestore",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "ToPurchaseAddress",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "ProductdatabasetogoldPurchaseAddres",
 						"type": "DataFlowReference"
 					},
 					"compute": {
