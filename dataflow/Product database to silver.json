@@ -12,7 +12,15 @@
 					"name": "sourceBronze"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"linkedService": {
+						"referenceName": "Datalake",
+						"type": "LinkedServiceReference"
+					},
+					"name": "sinktoSilver"
+				}
+			],
 			"transformations": [
 				{
 					"name": "filterorderid"
@@ -79,7 +87,17 @@
 				"          LoadDate",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> selectfinalcolumns"
+				"     skipDuplicateMapOutputs: true) ~> selectfinalcolumns",
+				"selectfinalcolumns sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     fileSystem: 'datalake',",
+				"     folderPath: 'Silver/ProductDatabase',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sinktoSilver"
 			]
 		}
 	}
