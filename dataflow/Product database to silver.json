@@ -25,6 +25,9 @@
 				},
 				{
 					"name": "AddAddressparts"
+				},
+				{
+					"name": "selectfinalcolumns"
 				}
 			],
 			"scriptLines": [
@@ -56,7 +59,27 @@
 				"filterorderid aggregate(groupBy(mycols = sha2(256,columns())),",
 				"     each(match(true()), $$ = first($$))) ~> Removeduplicates",
 				"Changedatatype derive(PurchaseStreet = trim(at(split(PurchaseAddress, ','),1)),",
-				"          Purchasecity = trim(at(split(PurchaseAddress, ','),2))) ~> AddAddressparts"
+				"          Purchasecity = trim(at(split(PurchaseAddress, ','),2)),",
+				"          State = trim(at(split(\r",
+				"trim(at(split(PurchaseAddress, ','),3))\r",
+				",' '),1))\r",
+				",",
+				"          Zipcode = trim(at(split( trim(at(split(PurchaseAddress, ','),3)) ,' '),2))) ~> AddAddressparts",
+				"AddAddressparts select(mapColumn(",
+				"          OrderID,",
+				"          Product,",
+				"          QuantityOrdered,",
+				"          PriceEach,",
+				"          OrderDate,",
+				"          PurchaseStreet,",
+				"          Purchasecity,",
+				"          State,",
+				"          Zipcode,",
+				"          Filename,",
+				"          LoadDate",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectfinalcolumns"
 			]
 		}
 	}
