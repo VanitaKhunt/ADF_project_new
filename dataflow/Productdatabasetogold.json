@@ -1,0 +1,72 @@
+{
+	"name": "Productdatabasetogold",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"linkedService": {
+						"referenceName": "Datalake",
+						"type": "LinkedServiceReference"
+					},
+					"name": "sourceSilver"
+				}
+			],
+			"sinks": [
+				{
+					"linkedService": {
+						"referenceName": "Datalake",
+						"type": "LinkedServiceReference"
+					},
+					"name": "Goldsink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "CreatedimensionData"
+				},
+				{
+					"name": "createDimensionID"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          OrderID as integer,",
+				"          Product as string,",
+				"          QuantityOrdered as integer,",
+				"          PriceEach as double,",
+				"          OrderDate as timestamp,",
+				"          PurchaseStreet as string,",
+				"          Purchasecity as string,",
+				"          PurchaseState as string,",
+				"          PurchaseZipcode as string,",
+				"          Filename as string,",
+				"          LoadDate as date",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     limit: 100,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet',",
+				"     fileSystem: 'datalake',",
+				"     wildcardPaths:['Silver/ProductDatabase/']) ~> sourceSilver",
+				"sourceSilver aggregate(groupBy(Product),",
+				"     PriceEach = last(PriceEach)) ~> CreatedimensionData",
+				"CreatedimensionData keyGenerate(output(ProductID as long),",
+				"     startAt: 1L,",
+				"     stepValue: 1L) ~> createDimensionID",
+				"createDimensionID sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     fileSystem: 'datalake',",
+				"     folderPath: 'Gold/ProductDatabase',",
+				"     partitionFileNames:['Product.parquet'],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> Goldsink"
+			]
+		}
+	}
+}
