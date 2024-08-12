@@ -60,7 +60,7 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"Schema": "stage",
-							"TableName": "SalesOredertemp"
+							"TableName": "SalesOrderTemp"
 						}
 					}
 				]
