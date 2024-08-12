@@ -64,6 +64,9 @@
 				]
 			}
 		],
+		"folder": {
+			"name": "MappingDataflow"
+		},
 		"annotations": [],
 		"lastPublishTime": "2024-07-31T10:47:20Z"
 	},
