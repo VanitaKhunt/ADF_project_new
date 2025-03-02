@@ -1,0 +1,9 @@
+{
+	"name": "adfawjproject",
+	"location": "uksouth",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "6902b444-d004-4fdd-853a-8a7112ac387f",
+		"tenantId": "ae3f47d1-dd89-43b1-a9b5-f7aadd7b81af"
+	}
+}
